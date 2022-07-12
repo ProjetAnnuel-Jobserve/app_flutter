@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/form_signin.dart';
+import 'package:jobserve_ref/screens/form_signup.dart';
 
-class ConnexionScreen extends StatelessWidget {
-  const ConnexionScreen({Key? key}) : super(key: key);
+class InscriptionScreen extends StatelessWidget {
+  const InscriptionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class ConnexionScreen extends StatelessWidget {
                   child: Container(
                     child: Center(
                       child: Text(
-                        "Jobserve",
+                        "Inscription",
                         style: TextStyle(
                           fontSize: 45,
                           color: Colors.white)
@@ -39,9 +40,9 @@ class ConnexionScreen extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-        
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: SignIn(),
+                      
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: SignUp(),
         
                   
                   ),

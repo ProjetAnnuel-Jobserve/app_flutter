@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:jobserve_ref/constant.dart';
 import 'package:side_navigation/side_navigation.dart';
 
-class SideNavigation extends StatefulWidget {
-  const SideNavigation({ Key? key }) : super(key: key);
+typedef void IntCallback(int id);
 
-  @override
-  State<SideNavigation> createState() => _SideNavigationState();
-}
-
-class _SideNavigationState extends State<SideNavigation> {
-
-  int selectedIndex = 0;
+class SideNavigation extends StatelessWidget {
+  final IntCallback updateRoute;
+  final int index;
+  SideNavigation({ required this.updateRoute , required this.index});
 
   @override
   Widget build(BuildContext context) {
     return SideNavigationBar(
-            selectedIndex: selectedIndex,
+            selectedIndex: this.index,
             items: const [
               SideNavigationBarItem(
                 icon: Icons.person,
@@ -30,7 +27,7 @@ class _SideNavigationState extends State<SideNavigation> {
                 label: 'Evenements',
               ),
               SideNavigationBarItem(
-                icon: Icons.settings,
+                icon: Icons.person_pin_rounded,
                 label: 'Profil',
               ),
               SideNavigationBarItem(
@@ -39,10 +36,12 @@ class _SideNavigationState extends State<SideNavigation> {
               ),
             ],
             onTap: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
+              updateRoute(index);
             },
+            theme: SideNavigationBarTheme(backgroundColor: Colors.white,togglerTheme: SideNavigationBarTogglerTheme.standard(),
+              itemTheme: SideNavigationBarItemTheme(selectedItemColor: jSecondaryColor,),
+              dividerTheme: SideNavigationBarDividerTheme.standard(),),
           );
+
   }
 }

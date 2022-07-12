@@ -16,7 +16,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Web ',
       theme: ThemeData(
-        primaryColor: kPrimaryColor,
+        primaryColor: jPrimaryColor,
+        colorScheme: ThemeData.light().colorScheme.copyWith(
+          onPrimary: Colors.white, // Color for checkmark in datatable
+          primary: jPrimaryColor, // Color used for checkbox fill in datatable
+        ),
       ),
       home: const ConnexionScreen(),
     );
