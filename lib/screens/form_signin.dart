@@ -6,13 +6,15 @@ import 'package:jobserve_ref/screens/home_screen.dart';
 import 'package:jobserve_ref/screens/inscription_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../services/firebase_auth_service.dart';
+
 class SignIn extends StatelessWidget {
   const SignIn({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final nameController = TextEditingController();
+    final mailController = TextEditingController();
     final passwordController = TextEditingController();
 
     return Container(
@@ -32,7 +34,7 @@ class SignIn extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
-              controller: nameController,
+              controller: mailController,
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -42,6 +44,7 @@ class SignIn extends StatelessWidget {
               color: lightgrey,
             ),
             title: TextFormField(
+              obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Mot de Passe',
                 hintStyle: TextStyle(color: Colors.black54),
@@ -53,21 +56,36 @@ class SignIn extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
           ),
-          Container(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-                onPressed: () => _goToRegister(context),
-                child: Text(
-                    "Créer mon Entreprise",
-                    style: TextStyle(color: Colors.brown)
-                )
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                    onPressed: () => _goToRegister(context),
+                    child: Text(
+                        "Créer mon Entreprise",
+                        style: TextStyle(color: Colors.brown)
+                    )
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                    onPressed: () => _newPassword(mailController.text),
+                    child: Text(
+                        "Mot de Passe Oublié",
+                        style: TextStyle(color: Colors.brown)
+                    )
+                ),
+              ),
+            ],
           ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(80.0),
               child: OutlinedButton(
-                  onPressed: () => _goToA(context),
+                  onPressed: () => _register(context, mailController.text, passwordController.text),
                   child: Text(
                       "Connexion",
                       style: TextStyle(color: Colors.white)
@@ -86,5 +104,13 @@ class SignIn extends StatelessWidget {
 
   void _goToRegister(BuildContext context) {
     Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
+  }
+
+  void _register(context, login, password) {
+    FirebaseAuthService.signIn(context, login, password);
+  }
+
+  void _newPassword(login) {
+    FirebaseAuthService.forgotPassword(login);
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/home_screen.dart';
 import 'package:jobserve_ref/screens/inscription_screen.dart';
+import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SignUp extends StatelessWidget {
@@ -98,6 +99,7 @@ class SignUp extends StatelessWidget {
                           color: Colors.white,
                         ),
                         title: TextFormField(
+                          obscureText: true,
                           decoration: InputDecoration(
                             hintText: 'Mot de Passe',
                             hintStyle: TextStyle(color: Colors.black54),
@@ -300,7 +302,7 @@ class SignUp extends StatelessWidget {
 
             child: OutlinedButton(
                 style: OutlinedButton.styleFrom(primary: Colors.red),
-                onPressed: () => _goToA(context),
+                onPressed: () => _register(mailController.text, passwordController.text),
                 child: Text(
                     "Valider",
                     style: TextStyle(color: Colors.white)
@@ -319,5 +321,9 @@ class SignUp extends StatelessWidget {
 
   void _goToRegister(BuildContext context) {
     Navigator.pop(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
+  }
+
+  void _register(login, password) {
+    FirebaseAuthService.signUp(login, password);
   }
 }

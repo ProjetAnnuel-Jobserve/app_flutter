@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
-import 'package:jobserve_ref/screens/form_signin.dart';
 import 'package:jobserve_ref/screens/form_signup.dart';
 
 class InscriptionScreen extends StatelessWidget {
@@ -40,11 +39,8 @@ class InscriptionScreen extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                      
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: SignUp(),
-        
-                  
                   ),
                 ),
               ],

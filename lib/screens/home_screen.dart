@@ -3,6 +3,7 @@ import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/connexion_screen.dart';
 import 'package:jobserve_ref/screens/event_screen.dart';
 import 'package:jobserve_ref/screens/profile_screen.dart';
+import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:jobserve_ref/widget/side_navigation.dart';
 import 'package:jobserve_ref/widget/table_event.dart';
 import 'package:page_transition/page_transition.dart';
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _logout(BuildContext context) {
-    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: ConnexionScreen()));
+    FirebaseAuthService.logout(context);
   }
 
   @override
