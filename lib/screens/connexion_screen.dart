@@ -39,11 +39,8 @@ class ConnexionScreen extends StatelessWidget {
                 Expanded(
                   flex: 6,
                   child: Container(
-        
                         width: MediaQuery.of(context).size.width / 2,
-                        child: SignIn(),
-        
-                  
+                        child: SignIn(),  
                   ),
                 ),
               ],

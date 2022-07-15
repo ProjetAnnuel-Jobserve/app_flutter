@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:jobserve_ref/utils/pref_util.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/connexion_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:connectycube_sdk/connectycube_sdk.dart';
+import 'package:jobserve_ref/utils/configs.dart' as config;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +28,14 @@ void main() async {
     runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -40,8 +48,28 @@ class MyApp extends StatelessWidget {
           primary: jPrimaryColor, // Color used for checkbox fill in datatable
         ),
       ),
-      home: const ConnexionScreen(),
+      home: ConnexionScreen(),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+
+    initConnectycube();
+  }
+}
+
+initConnectycube() {
+  init(
+    config.APP_ID,
+    config.AUTH_KEY,
+    config.AUTH_SECRET,
+    onSessionRestore: () {
+      return SharedPrefs.getUser().then((savedUser) {
+        return createSession(savedUser);
+      });
+    },
+  );
 }
 

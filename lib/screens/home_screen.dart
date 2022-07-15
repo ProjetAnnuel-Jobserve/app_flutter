@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
+import 'package:jobserve_ref/screens/calls/builder_call.dart';
 import 'package:jobserve_ref/screens/connexion_screen.dart';
 import 'package:jobserve_ref/screens/event_screen.dart';
 import 'package:jobserve_ref/screens/profile_screen.dart';
 import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:jobserve_ref/widget/side_navigation.dart';
-import 'package:jobserve_ref/widget/table_event.dart';
-import 'package:page_transition/page_transition.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -18,12 +17,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-List<Widget> views = const [
+List<Widget> views = [
     Center(
       child: Text('Users'),
     ),
     Center(
-      child: Text('Conference'),
+      child: BuilderCall(),
     ),
     Center(
       child: EventScreen(),
