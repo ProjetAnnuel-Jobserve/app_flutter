@@ -37,7 +37,7 @@ class InscriptionScreen extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 6,
                   child: Container(
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: SignUp(),

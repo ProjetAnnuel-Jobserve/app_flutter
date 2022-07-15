@@ -4,9 +4,12 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/connexion_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('user_box');
   await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Web ',
+      title: 'Jobserve',
       theme: ThemeData(
         primaryColor: jPrimaryColor,
         colorScheme: ThemeData.light().colorScheme.copyWith(

@@ -42,9 +42,7 @@ class _EventTableState extends State<EventTable> {
           (int index) => DataRow(
             color: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
-              if (states.contains(MaterialState.selected)) {
-                return Theme.of(context).colorScheme.primary.withOpacity(0.08);
-              }
+             
               return null; 
             }),
             cells: <DataCell>[
