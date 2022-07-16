@@ -18,8 +18,8 @@ class ConnexionScreen extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  kPrimaryColor,
-                  kSecondaryColor,
+                  jPrimaryColor,
+                  jSecondaryColor,
                 ],
               ),
             ),
