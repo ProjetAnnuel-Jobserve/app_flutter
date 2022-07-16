@@ -107,7 +107,7 @@ class _BodyLayoutState extends State<BodyLayout> {
         child: Column(
           children: [
             Text(
-              "Select users to call:",
+              "Modérateur:",
               style: TextStyle(fontSize: 22),
             ),
             Expanded(

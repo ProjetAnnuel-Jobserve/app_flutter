@@ -8,6 +8,7 @@ import 'package:jobserve_ref/screens/connexion_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
 import 'package:jobserve_ref/utils/configs.dart' as config;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+         GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('fr')
+      ],
       title: 'Jobserve',
       theme: ThemeData(
         primaryColor: jPrimaryColor,

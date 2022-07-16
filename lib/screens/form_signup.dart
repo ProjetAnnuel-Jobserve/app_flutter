@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/home_screen.dart';
 import 'package:jobserve_ref/screens/inscription_screen.dart';
@@ -39,7 +40,6 @@ class SignUp extends StatelessWidget {
                 Expanded(
                   child: SizedBox(
                     height: 450,
-                    
                       child: Column(
                         children: [
                           Text("Informations personnelles",style: TextStyle(
@@ -50,15 +50,19 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
+                              keyboardType: TextInputType.phone,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 hintText: 'Nom',
                                 hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -73,15 +77,19 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
+                              keyboardType: TextInputType.datetime,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'error';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 hintText: 'Prénom',
                                 hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -96,15 +104,19 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 hintText: 'E-mail',
                                 hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -122,13 +134,16 @@ class SignUp extends StatelessWidget {
                               obscureText: true,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 hintText: 'Mot de Passe',
                                 hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -145,19 +160,33 @@ class SignUp extends StatelessWidget {
                             title: TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
+                              controller: birthDateController, //editing controller of this TextField
                               decoration: InputDecoration(
-                                hintText: 'Date de Naissance',
-                                hintStyle: TextStyle(color: Colors.black54),
+                                hintText: 'Date',
+                                hintStyle: TextStyle(color: Colors.white),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
                               ),
-                              controller: birthDateController,
-                              style: TextStyle(color: Colors.white),
+                              readOnly: true,  //set it true, so that user will not able to edit text
+                              onTap: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context, initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime.now()
+                                );
+                                if(pickedDate != null ){
+                                  String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); 
+                                  birthDateController.text = formattedDate;
+                                } 
+                              },
                             ),
                           ),
                           ListTile(
@@ -166,15 +195,19 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
+                              keyboardType: TextInputType.number,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 hintText: 'Numéro de téléphone',
                                 hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -191,13 +224,16 @@ class SignUp extends StatelessWidget {
                             title: TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 hintText: 'Profession',
                                 hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -226,13 +262,16 @@ class SignUp extends StatelessWidget {
                           title: TextFormField(
                             validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                             decoration: InputDecoration(
                               hintText: 'Nom de l\'entreprise',
                               hintStyle: TextStyle(color: Colors.black54),
+                              errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -247,15 +286,19 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                             decoration: InputDecoration(
                               hintText: 'Numéro de Siret',
                               hintStyle: TextStyle(color: Colors.black54),
+                              errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -270,15 +313,19 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                             decoration: InputDecoration(
                               hintText: 'Capacité',
                               hintStyle: TextStyle(color: Colors.black54),
+                              errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -295,13 +342,16 @@ class SignUp extends StatelessWidget {
                           title: TextFormField(
                             validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                             decoration: InputDecoration(
                               hintText: 'Adresse',
                               hintStyle: TextStyle(color: Colors.black54),
+                              errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -318,13 +368,16 @@ class SignUp extends StatelessWidget {
                           title: TextFormField(
                             validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
                                 }
                                 return null;
                               },
                             decoration: InputDecoration(
                               hintText: 'Ville',
                               hintStyle: TextStyle(color: Colors.black54),
+                              errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -341,13 +394,17 @@ class SignUp extends StatelessWidget {
                           title: TextFormField(
                             validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Champs Requis';
+                                  return 'Error';
+                                } else {
+                                  return null;
                                 }
-                                return null;
                               },
                             decoration: InputDecoration(
                               hintText: 'Code postal',
                               hintStyle: TextStyle(color: Colors.black54),
+                              errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -373,26 +430,26 @@ class SignUp extends StatelessWidget {
               ),
             ),
             Center(
-
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(primary: Colors.red),
                   onPressed: () => {
-
                     if (_formKey.currentState!.validate()) {
+                      _register(context, lastnameController.text, firstnameController.text, mailController.text, passwordController.text, birthDateController.text,
+                      numberController.text, jobController.text, companyNameController.text, companySiretController.text, companyCapacityController.text,
+                      companyAdressController.text, companyCityController.text, companyZipController.text
+                      )
+                    } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
+                        const SnackBar(content: Text('Veuillez remplir tous les champs')),
                       ),
-                      _register(mailController.text, passwordController.text)
-                    }
-                    
+                    } 
                   },
                   child: Text(
                       "Valider",
                       style: TextStyle(color: Colors.white)
-                  )
+                  ),
               ),
             ),
-
           ],
         ),
       ),
@@ -407,7 +464,11 @@ class SignUp extends StatelessWidget {
     Navigator.pop(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
   }
 
-  void _register(login, password) {
-    FirebaseAuthService.signUp(login, password);
+  void _register(context, lastname, firstname, mail, password, birthDate, number, job, name, siret, capacity, adress, city, zip) {
+    FirebaseAuthService.signUp(context, mail, password).then((value) => 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${value}')),
+      ),
+    );
   }
 }

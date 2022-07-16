@@ -4,6 +4,7 @@ import 'package:jobserve_ref/screens/calls/builder_call.dart';
 import 'package:jobserve_ref/screens/connexion_screen.dart';
 import 'package:jobserve_ref/screens/event_screen.dart';
 import 'package:jobserve_ref/screens/profile_screen.dart';
+import 'package:jobserve_ref/screens/topic_screen.dart';
 import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:jobserve_ref/widget/side_navigation.dart';
 
@@ -28,6 +29,9 @@ List<Widget> views = [
       child: EventScreen(),
     ),
     Center(
+      child: TopicScreen(),
+    ),
+    Center(
       child: ProfileScreen(),
     ),
 ];
@@ -40,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getNewRoute(int newId){
     setState(() {
-      if(newId == 4){
+      if(newId == views.length){
         _logout(context);
       }else{
         selectedIndex = newId;

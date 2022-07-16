@@ -27,6 +27,10 @@ class SideNavigation extends StatelessWidget {
                 label: 'Evenements',
               ),
               SideNavigationBarItem(
+                icon: Icons.topic,
+                label: 'Topics',
+              ),
+              SideNavigationBarItem(
                 icon: Icons.person_pin_rounded,
                 label: 'Profil',
               ),

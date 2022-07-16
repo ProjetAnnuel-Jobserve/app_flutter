@@ -38,7 +38,7 @@ class BodyState extends State<BodyLayout> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Select user to login:",
+            "Choisir une session:",
             style: TextStyle(
               fontSize: 22,
             ),

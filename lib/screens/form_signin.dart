@@ -26,7 +26,6 @@ class SignIn extends StatelessWidget {
               color: lightgrey,
             ),
             title: TextFormField(
-
               decoration: InputDecoration(
                 hintText: 'Adresse Mail',
                 hintStyle: TextStyle(color: Colors.black54),
@@ -85,7 +84,7 @@ class SignIn extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(80.0),
               child: OutlinedButton(
-                  onPressed: () => _register(context, mailController.text, passwordController.text),
+                  onPressed: () => _signIn(context, mailController.text, passwordController.text),
                   child: Text(
                       "Connexion",
                       style: TextStyle(color: Colors.white)
@@ -106,8 +105,15 @@ class SignIn extends StatelessWidget {
     Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
   }
 
-  void _register(context, login, password) {
-    FirebaseAuthService.signIn(context, login, password);
+  void _signIn(context, login, password) {
+    if(login == '' || password == ''){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Veuillez remplir les champs')),
+      );
+    } else {
+      FirebaseAuthService.signIn(context, login, password);
+    }
+    
   }
 
   void _newPassword(login) {

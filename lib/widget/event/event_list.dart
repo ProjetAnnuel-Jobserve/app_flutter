@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jobserve_ref/widget/table_event.dart';
+import 'package:jobserve_ref/widget/event/event_table.dart';
 
 
-import '../models/event.dart';
-import '../services/event_service.dart';
+import '../../models/event.dart';
+import '../../services/event_service.dart';
 
 class EventList extends StatelessWidget {
   const EventList({
@@ -16,23 +16,16 @@ class EventList extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15, right: 15),
-              child: OutlinedButton(
-                child: Text("Supprimer"),
-                onPressed: () {
-
-                },),
-            ),),
-          Container(
             child: FutureBuilder(
               future: EventServices.getEvents(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(38.0),
+                        child: CircularProgressIndicator(),
+                      ),
                     );
                   case ConnectionState.done:
                     if (snapshot.hasError) {
@@ -44,7 +37,7 @@ class EventList extends StatelessWidget {
                       final List<Event> events = snapshot.data;
                       if (events.isEmpty) {
                         return Center(
-                          child: Text("Empty list"),
+                          child: Text("Pas d'evenements"),
                         );
                       }
                       return EventTable(events: events);
