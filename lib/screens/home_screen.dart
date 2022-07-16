@@ -7,6 +7,7 @@ import 'package:jobserve_ref/screens/profile_screen.dart';
 import 'package:jobserve_ref/screens/topic_screen.dart';
 import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:jobserve_ref/widget/side_navigation.dart';
+import 'package:jobserve_ref/widget/user/user_list.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 List<Widget> views = [
     Center(
-      child: Text('Users'),
+      child: UserList(),
     ),
     Center(
       child: BuilderCall(),

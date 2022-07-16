@@ -1,4 +1,5 @@
 class User {
+  final String id;
   final String firstname;
   final String lastname;
   final String birthDate;
@@ -10,13 +11,16 @@ class User {
   final String idFirebase;
   final String idCompany;
 
-  User(this.firstname, this.lastname, this.birthDate, this.address, this.email, this.phoneNumber, this.job,this.permission,this.idFirebase,this.idCompany);
+  User(this.id, this.firstname, this.lastname, this.birthDate, this.address, this.email, this.phoneNumber, this.job,this.permission,this.idFirebase,this.idCompany);
 
   factory User.fromJson(Map<String, dynamic> json) {
+    String birthDateBrut = json["birthDate"];
+    var birthdate = birthDateBrut.split('T')[0];
     return User(
+        json["_id"],
         json["firstname"],
         json["lastname"],
-        json["birthDate"],
+        birthdate,
         json["location"],
         json["email"],
         json["phoneNumber"],
