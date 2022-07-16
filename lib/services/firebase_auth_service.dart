@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:jobserve_ref/screens/connexion_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,8 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/home_screen.dart';
 
 class FirebaseAuthService {
-
-  late SharedPreferences _shared;
+  final userBox = Hive.box('drivers_box');
 
   static Future<String> signUp(context, emailAdress, password) async {
     try {
@@ -72,13 +72,14 @@ class FirebaseAuthService {
   }
 
   storeIdAndToken(token, id) async {
+    final SharedPreferences shared;
     final dynamic user = await FirebaseAuth.instance.currentUser;
     final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    _shared = await SharedPreferences.getInstance();
-    _shared.setString('token', token!);
-    _shared.setString('id', user.uid);
-    print(_shared.getString('token'));
-    print(_shared.getString('id'));
+    shared = await SharedPreferences.getInstance();
+    shared.setString('token', token!);
+    shared.setString('id', user.uid);
+    print(shared.getString('token'));
+    print(shared.getString('id'));
   }
 
   static String shownMessage(context, value) {

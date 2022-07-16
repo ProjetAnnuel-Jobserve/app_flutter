@@ -31,7 +31,7 @@ class ProfileItem extends StatelessWidget {
                   subtitle: Text('Here is a second line'),
                 ),
                 ListTile(
-                  title: Text('Adresse'),
+                  title: Text('adresse'),
                   subtitle: Text('Here is a second line'),
                 ),
                 ListTile(

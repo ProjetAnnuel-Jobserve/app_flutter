@@ -113,7 +113,6 @@ class SignIn extends StatelessWidget {
     } else {
       FirebaseAuthService.signIn(context, login, password);
     }
-    
   }
 
   void _newPassword(login) {

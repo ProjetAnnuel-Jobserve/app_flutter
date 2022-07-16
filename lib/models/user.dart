@@ -2,7 +2,7 @@ class User {
   final String firstname;
   final String lastname;
   final String birthDate;
-  final String adress;
+  final String address;
   final String email;
   final String phoneNumber;
   final String job;
@@ -10,7 +10,7 @@ class User {
   final String idFirebase;
   final String idCompany;
 
-  User(this.firstname, this.lastname, this.birthDate, this.adress, this.email, this.phoneNumber, this.job,this.permission,this.idFirebase,this.idCompany);
+  User(this.firstname, this.lastname, this.birthDate, this.address, this.email, this.phoneNumber, this.job,this.permission,this.idFirebase,this.idCompany);
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

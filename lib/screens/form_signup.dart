@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/home_screen.dart';
 import 'package:jobserve_ref/screens/inscription_screen.dart';
+import 'package:jobserve_ref/services/company_service.dart';
 import 'package:jobserve_ref/services/firebase_auth_service.dart';
+import 'package:jobserve_ref/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SignUp extends StatelessWidget {
@@ -21,12 +22,13 @@ class SignUp extends StatelessWidget {
     final mailController = TextEditingController();
     final passwordController = TextEditingController();
     final birthDateController = TextEditingController();
+    final locationController = TextEditingController();
     final numberController = TextEditingController();
     final jobController = TextEditingController();
     final companyNameController = TextEditingController();
     final companySiretController = TextEditingController();
     final companyCapacityController = TextEditingController();
-    final companyAdressController = TextEditingController();
+    final companyaddressController = TextEditingController();
     final companyCityController = TextEditingController();
     final companyZipController = TextEditingController();
 
@@ -39,7 +41,7 @@ class SignUp extends StatelessWidget {
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 450,
+                    height: 480,
                       child: Column(
                         children: [
                           Text("Informations personnelles",style: TextStyle(
@@ -50,7 +52,6 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
-                              keyboardType: TextInputType.phone,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Error';
@@ -77,7 +78,6 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
-                              keyboardType: TextInputType.datetime,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'error';
@@ -104,7 +104,6 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Error';
@@ -164,10 +163,11 @@ class SignUp extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: birthDateController, //editing controller of this TextField
+                              controller: birthDateController,
+                              style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 hintText: 'Date',
-                                hintStyle: TextStyle(color: Colors.white),
+                                hintStyle: TextStyle(color: Colors.black54),
                                 errorStyle: TextStyle(
                                   fontSize: 0,
                                 ),
@@ -191,13 +191,39 @@ class SignUp extends StatelessWidget {
                           ),
                           ListTile(
                             leading: Icon(
-                              Icons.numbers,
+                              Icons.home,
                               color: Colors.white,
                             ),
                             title: TextFormField(
-                              keyboardType: TextInputType.number,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
+                                  return 'Error';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Adresse',
+                                hintStyle: TextStyle(color: Colors.black54),
+                                errorStyle: TextStyle(
+                                  fontSize: 0,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                              ),
+                              controller: locationController,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.phone,
+                              color: Colors.white,
+                            ),
+                            title: TextFormField(
+                              // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                              validator: (value) {
+                                if (value == null || value.isEmpty || value.length != 10) {
                                   return 'Error';
                                 }
                                 return null;
@@ -249,7 +275,7 @@ class SignUp extends StatelessWidget {
                 ),
                 Expanded(
                   child: SizedBox(
-                    height: 450,
+                    height: 480,
                     child: Column(
                       children: [
                         Text("Information de l\'organisme",style: TextStyle(
@@ -286,9 +312,9 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
-                            keyboardType: TextInputType.number,
+                            // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(30)],
                             validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.isEmpty || value.length < 2) {
                                   return 'Error';
                                 }
                                 return null;
@@ -313,9 +339,9 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
-                            keyboardType: TextInputType.number,
+                            // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(15)],
                             validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.isEmpty || value == '0') {
                                   return 'Error';
                                 }
                                 return null;
@@ -347,7 +373,7 @@ class SignUp extends StatelessWidget {
                                 return null;
                               },
                             decoration: InputDecoration(
-                              hintText: 'Adresse',
+                              hintText: 'adresse',
                               hintStyle: TextStyle(color: Colors.black54),
                               errorStyle: TextStyle(
                                   fontSize: 0,
@@ -356,7 +382,7 @@ class SignUp extends StatelessWidget {
                                 borderSide: BorderSide(color: Colors.white),
                               ),
                             ),
-                            controller: companyAdressController,
+                            controller: companyaddressController,
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -392,8 +418,9 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
+                            // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
                             validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.isEmpty || value.length != 5) {
                                   return 'Error';
                                 } else {
                                   return null;
@@ -435,8 +462,8 @@ class SignUp extends StatelessWidget {
                   onPressed: () => {
                     if (_formKey.currentState!.validate()) {
                       _register(context, lastnameController.text, firstnameController.text, mailController.text, passwordController.text, birthDateController.text,
-                      numberController.text, jobController.text, companyNameController.text, companySiretController.text, companyCapacityController.text,
-                      companyAdressController.text, companyCityController.text, companyZipController.text
+                      locationController.text, numberController.text, jobController.text, companyNameController.text, companySiretController.text, 
+                      companyCapacityController.text, companyaddressController.text, companyCityController.text, companyZipController.text
                       )
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -464,11 +491,19 @@ class SignUp extends StatelessWidget {
     Navigator.pop(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
   }
 
-  void _register(context, lastname, firstname, mail, password, birthDate, number, job, name, siret, capacity, adress, city, zip) {
-    FirebaseAuthService.signUp(context, mail, password).then((value) => 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${value}')),
-      ),
-    );
+  void _register(context, lastname, firstname, mail, password, birthDate, location, number, job, name, siret, capacity, address, city, zip) {
+    FirebaseAuthService.signUp(context, mail, password).then((firebase) => {
+      if (firebase != '') {
+          print("creation compte firebase"),
+          CompanyServices.createCompany(name, siret, capacity, address, city, zip)
+          .then((company) => UserServices.createAdmin(firstname, lastname, birthDate, location, mail, number, job, firebase, company.id)
+            .then((admin) => { 
+              UserServices().storeUser(admin),
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")))
+              }
+            )
+          )
+      }
+    });
   }
 }

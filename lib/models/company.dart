@@ -1,16 +1,22 @@
 class Company {
+  final String? id;
   final String? name;
-  final String? description;
-  final String? dateEnded;
-  final String? status;
+  final String? siretNumber;
+  final int? capacity;
+  final String? address;
+  final String? city;
+  final String? zipcode;
 
-  Company(this.name, this.description, this.dateEnded, this.status,);
+  Company(this.id, this.name, this.siretNumber, this.capacity, this.address, this.city, this.zipcode,);
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
+        json["_id"],
         json["name"],
-        json["description"],
-        json["dateEnded"],
-        json["status"]);
+        json["siretNumber"],
+        json["capacity"],
+        json["address"],
+        json["city"],
+        json["zipcode"]);
   }
 }
