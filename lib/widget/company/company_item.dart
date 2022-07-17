@@ -3,7 +3,9 @@ import 'package:jobserve_ref/models/company.dart';
 
 
 class CompanyItem extends StatefulWidget {
+
   const CompanyItem({Key? key, required this.company}) : super(key: key);
+
   final Company company;
 
   @override
@@ -14,8 +16,8 @@ class _CompanyItemState extends State<CompanyItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return SizedBox(
+      child: Container(
         child: 
            Center(
              child: Column(

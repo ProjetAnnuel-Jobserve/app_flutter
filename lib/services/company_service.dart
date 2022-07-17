@@ -24,7 +24,8 @@ class CompanyServices {
     print("tesifeoof");
     print("${idCompany}");
     final response = await http.get(
-      Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idCompany}"),
+      //Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idCompany}"),
+        Uri.parse("https://jobserve-moc.herokuapp.com/companys/${idCompany}"),
     );
 
       

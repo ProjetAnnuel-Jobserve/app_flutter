@@ -35,6 +35,7 @@ class CompanyFuture extends StatelessWidget {
                     }
                     if (snapshot.hasData) {
                       final Company company = snapshot.data;
+                      print("condition ok, data ok ");
                       return CompanyItem(company: company);
                     } else {
                       return Center(

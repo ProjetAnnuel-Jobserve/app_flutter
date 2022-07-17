@@ -72,18 +72,18 @@ class UserServices {
     return response;
 
   }
-  static Future<http.Response> updateUser(UserApp user) {
+  static Future<http.Response> updateUser(String id,String permission,String job,String phoneNumber,String address ) {
     return http.put(
       Uri.parse('https://jobserve-moc.herokuapp.com/users-one'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        '_id':user.id,
-        'permission': user.permission,
-        'job': user.job,
-        'phoneNumber': user.phoneNumber,
-        'location': user.address
+        '_id':id,
+        'permission': permission,
+        'job': job,
+        'phoneNumber': phoneNumber,
+        'location': address
       }),
     );
   }
