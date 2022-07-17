@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/models/user.dart';
 import 'package:jobserve_ref/services/user_service.dart';
+import 'package:jobserve_ref/utils/shared_preferences.dart';
 import 'package:jobserve_ref/widget/user/user_items.dart';
 
 class UserList extends StatelessWidget {
@@ -15,7 +16,7 @@ class UserList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: UserServices.getUsers(),
+        future: UserServices.getUsers(UserSharedPreferences.getValue('idCompany')),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -29,7 +30,7 @@ class UserList extends StatelessWidget {
                 );
               }
               if (snapshot.hasData) {
-                final List<User> users = snapshot.data;
+                final List<UserApp> users = snapshot.data;
                 if (users.isEmpty) {
                   return Center(
                     child: Text("Empty list"),

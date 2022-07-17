@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/home_screen.dart';
-import 'package:jobserve_ref/screens/inscription_screen.dart';
+import 'package:jobserve_ref/screens/authentification/inscription_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../services/firebase_auth_service.dart';
+import '../../services/firebase_auth_service.dart';
 
 class SignIn extends StatelessWidget {
   const SignIn({ Key? key }) : super(key: key);

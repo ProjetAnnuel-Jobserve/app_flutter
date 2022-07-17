@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:jobserve_ref/utils/pref_util.dart';
+import 'package:jobserve_ref/utils/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jobserve_ref/constant.dart';
-import 'package:jobserve_ref/screens/connexion_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:jobserve_ref/screens/authentification/connexion_screen.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
 import 'package:jobserve_ref/utils/configs.dart' as config;
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox('user_box');
+  await UserSharedPreferences.initPref();
   await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
   );

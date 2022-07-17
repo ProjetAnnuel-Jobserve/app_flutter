@@ -27,8 +27,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   firebase_core: ^1.19.1
   firebase_auth: ^3.4.1
-  hive: ^2.2.2
-  hive_flutter: ^1.1.0
   shared_preferences: "^2.0.14"
   connectycube_sdk: ^2.1.1
   connectycube_flutter_call_kit: ^2.0.3

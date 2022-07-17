@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
-import 'package:jobserve_ref/screens/form_signin.dart';
+import 'package:jobserve_ref/widget/authentification/form_signin.dart';
 
 class ConnexionScreen extends StatelessWidget {
   const ConnexionScreen({Key? key}) : super(key: key);

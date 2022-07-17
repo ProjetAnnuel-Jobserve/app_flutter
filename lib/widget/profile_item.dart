@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/shared_preferences.dart';
+
 class ProfileItem extends StatelessWidget {
   const ProfileItem({ Key? key }) : super(key: key);
 
@@ -7,8 +9,6 @@ class ProfileItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        alignment: Alignment.center,
         child: 
            Center(
              child: Column(
@@ -16,31 +16,31 @@ class ProfileItem extends StatelessWidget {
               children: [
                 ListTile(
                   title: Text('Nom'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('lastname')}'),
                 ),
                 ListTile(
                   title: Text('Prenom'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('firstname')}'),
                 ),
                 ListTile(
                   title: Text('Date de Naissance'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('birthDate')}'),
                 ),
                 ListTile(
                   title: Text('Mail'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('email')}'),
                 ),
                 ListTile(
                   title: Text('adresse'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('address')}'),
                 ),
                 ListTile(
                   title: Text('Téléphone'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('phoneNumber')}'),
                 ),
                 ListTile(
                   title: Text('Profession'),
-                  subtitle: Text('Here is a second line'),
+                  subtitle: Text('${UserSharedPreferences.getValue('job')}'),
                 )
               ]),
            ),

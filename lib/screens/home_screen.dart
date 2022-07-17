@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/screens/calls/builder_call.dart';
-import 'package:jobserve_ref/screens/connexion_screen.dart';
+import 'package:jobserve_ref/screens/company_screen.dart';
 import 'package:jobserve_ref/screens/event_screen.dart';
 import 'package:jobserve_ref/screens/profile_screen.dart';
 import 'package:jobserve_ref/screens/topic_screen.dart';
@@ -33,16 +33,17 @@ List<Widget> views = [
       child: TopicScreen(),
     ),
     Center(
+      child: CompanyScreen(),
+    ),
+    Center(
       child: ProfileScreen(),
     ),
 ];
 
 
-
 class _HomeScreenState extends State<HomeScreen> {
 
   int selectedIndex = 0;
-
   void getNewRoute(int newId){
     setState(() {
       if(newId == views.length){

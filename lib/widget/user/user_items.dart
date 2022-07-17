@@ -8,7 +8,7 @@ import 'package:jobserve_ref/widget/user/user_detail.dart';
 
 class UserTable extends StatefulWidget {
   const UserTable({Key? key, required this.users}) : super(key: key);
-  final List<User> users;
+  final List<UserApp> users;
 
   @override
   State<UserTable> createState() => _UserTableState();

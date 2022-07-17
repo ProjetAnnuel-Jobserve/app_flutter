@@ -1,11 +1,11 @@
 class Company {
-  final String? id;
-  final String? name;
-  final String? siretNumber;
-  final int? capacity;
-  final String? address;
-  final String? city;
-  final String? zipcode;
+  final String id;
+  final String name;
+  final String siretNumber;
+  final int capacity;
+  final String address;
+  final String city;
+  final String zipcode;
 
   Company(this.id, this.name, this.siretNumber, this.capacity, this.address, this.city, this.zipcode,);
 

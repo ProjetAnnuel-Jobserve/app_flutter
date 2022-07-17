@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:jobserve_ref/screens/connexion_screen.dart';
+import 'package:jobserve_ref/models/user.dart';
+import 'package:jobserve_ref/screens/authentification/connexion_screen.dart';
+import 'package:jobserve_ref/services/user_service.dart';
+import 'package:jobserve_ref/utils/shared_preferences.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/home_screen.dart';
 
 class FirebaseAuthService {
-  final userBox = Hive.box('drivers_box');
 
   static Future<String> signUp(context, emailAdress, password) async {
     try {
@@ -51,7 +51,9 @@ class FirebaseAuthService {
         password: password
       );
       final dynamic user = await FirebaseAuth.instance.currentUser;
+      final UserApp userApp = await UserServices.getUserbyIdFirebase(user.uid);
       print("user ${user.uid}");
+      FirebaseAuthService.storeUserAndToken(userApp);
       Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -71,15 +73,11 @@ class FirebaseAuthService {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: mail);
   }
 
-  storeIdAndToken(token, id) async {
-    final SharedPreferences shared;
-    final dynamic user = await FirebaseAuth.instance.currentUser;
+  static storeUserAndToken(UserApp user) async {
     final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    shared = await SharedPreferences.getInstance();
-    shared.setString('token', token!);
-    shared.setString('id', user.uid);
-    print(shared.getString('token'));
-    print(shared.getString('id'));
+    UserSharedPreferences.setUser(user, token);
+    UserSharedPreferences.getValue("id");
+
   }
 
   static String shownMessage(context, value) {

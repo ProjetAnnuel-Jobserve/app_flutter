@@ -19,6 +19,25 @@ class CompanyServices {
     return companys;
   }
 
+  static Future<Company> getCompanybyId(String idCompany) async {
+
+    print("tesifeoof");
+    print("${idCompany}");
+    final response = await http.get(
+      Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idCompany}"),
+    );
+
+      
+      final dynamic test = Company.fromJson(jsonDecode(response.body));
+      print("test : ${test}");
+      return test;
+      
+ 
+      throw Error();
+    
+
+  }
+
   static Future<Company> createCompany(name, siret, capacity, address, city, zip) async {
 
     print('capacity :  ${capacity}');

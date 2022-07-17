@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
-import 'package:jobserve_ref/screens/form_signup.dart';
+import 'package:jobserve_ref/widget/authentification/form_signup.dart';
 
 class InscriptionScreen extends StatelessWidget {
   const InscriptionScreen({Key? key}) : super(key: key);

@@ -31,6 +31,10 @@ class SideNavigation extends StatelessWidget {
                 label: 'Topics',
               ),
               SideNavigationBarItem(
+                icon: Icons.business,
+                label: 'Entreprise',
+              ),
+              SideNavigationBarItem(
                 icon: Icons.person_pin_rounded,
                 label: 'Profil',
               ),

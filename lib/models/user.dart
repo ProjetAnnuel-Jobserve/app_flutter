@@ -1,4 +1,4 @@
-class User {
+class UserApp {
   final String id;
   final String firstname;
   final String lastname;
@@ -11,12 +11,12 @@ class User {
   final String idFirebase;
   final String idCompany;
 
-  User(this.id, this.firstname, this.lastname, this.birthDate, this.address, this.email, this.phoneNumber, this.job,this.permission,this.idFirebase,this.idCompany);
+  UserApp(this.id, this.firstname, this.lastname, this.birthDate, this.address, this.email, this.phoneNumber, this.job,this.permission,this.idFirebase,this.idCompany);
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory UserApp.fromJson(Map<String, dynamic> json) {
     String birthDateBrut = json["birthDate"];
     var birthdate = birthDateBrut.split('T')[0];
-    return User(
+    return UserApp(
         json["_id"],
         json["firstname"],
         json["lastname"],

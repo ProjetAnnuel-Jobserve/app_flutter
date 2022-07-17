@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:jobserve_ref/models/user.dart';
 import 'package:jobserve_ref/services/user_service.dart';
 
 class Card_User extends StatefulWidget {
 
-  final User user;
+  final UserApp user;
 
   const Card_User({Key? key, required this.user}) : super(key: key);
 

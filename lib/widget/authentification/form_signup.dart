@@ -1,9 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:jobserve_ref/screens/home_screen.dart';
-import 'package:jobserve_ref/screens/inscription_screen.dart';
+import 'package:jobserve_ref/screens/authentification/inscription_screen.dart';
 import 'package:jobserve_ref/services/company_service.dart';
 import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:jobserve_ref/services/user_service.dart';
@@ -175,11 +176,11 @@ class SignUp extends StatelessWidget {
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
                               ),
-                              readOnly: true,  //set it true, so that user will not able to edit text
+                              readOnly: true, 
                               onTap: () async {
                                 DateTime? pickedDate = await showDatePicker(
                                     context: context, initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900), //DateTime.now() - not to allow to choose before today.
+                                    firstDate: DateTime(1900), 
                                     lastDate: DateTime.now()
                                 );
                                 if(pickedDate != null ){
@@ -221,7 +222,7 @@ class SignUp extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: TextFormField(
-                              // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                              inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                               validator: (value) {
                                 if (value == null || value.isEmpty || value.length != 10) {
                                   return 'Error';
@@ -312,7 +313,7 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
-                            // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(30)],
+                            inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(30)],
                             validator: (value) {
                                 if (value == null || value.isEmpty || value.length < 2) {
                                   return 'Error';
@@ -339,7 +340,7 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
-                            // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(15)],
+                            inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(15)],
                             validator: (value) {
                                 if (value == null || value.isEmpty || value == '0') {
                                   return 'Error';
@@ -418,7 +419,7 @@ class SignUp extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: TextFormField(
-                            // inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
+                            inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
                             validator: (value) {
                                 if (value == null || value.isEmpty || value.length != 5) {
                                   return 'Error';
@@ -498,7 +499,7 @@ class SignUp extends StatelessWidget {
           CompanyServices.createCompany(name, siret, capacity, address, city, zip)
           .then((company) => UserServices.createAdmin(firstname, lastname, birthDate, location, mail, number, job, firebase, company.id)
             .then((admin) => { 
-              UserServices().storeUser(admin),
+              FirebaseAuthService.storeUserAndToken(admin),
               Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")))
               }
             )

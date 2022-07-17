@@ -1,42 +1,38 @@
 import 'dart:convert';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:jobserve_ref/models/user.dart';
 
 class UserServices {
 
-  final userBox = Hive.box('users_box');
-
-  static Future<List<User>> getUsers() async {
+  static Future<List<UserApp>> getUsers(String? idCompany) async {
     final response = await http.get(
-      Uri.parse("https://jobserve-moc.herokuapp.com/users"),
+      Uri.parse("https://jobserve-moc.herokuapp.com/users-company/${idCompany}"),
     );
     if (response.statusCode != 200) {
       print("Erreur URL");
       throw Error();
     }
     final jsonBody = json.decode(response.body);
-    final List<User> users = [];
+    final List<UserApp> users = [];
     users.addAll((jsonBody as List)
-        .map((user) => User.fromJson(user))
+        .map((user) => UserApp.fromJson(user))
         .toList());
     return users;
   }
-  static Future<User> getUser() async {
+  
+  static Future<UserApp> getUserbyIdFirebase(String idFirebase) async {
     final response = await http.get(
-      Uri.parse("https://jobserve-moc.herokuapp.com/users"),
+      Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idFirebase}"),
     );
 
     if (response.statusCode != 200) {
       throw Error();
     }
-    final jsonBody = json.decode(response.body);
-    final User user = jsonBody as User;
-    
-    return user;
+    return UserApp.fromJson(jsonDecode(response.body));
+  
   }
 
-  static Future<User> createAdmin(firstname, lastname, birthdate, location, email, phoneNumber, job, idFirebase, fk_company) async {
+  static Future<UserApp> createAdmin(firstname, lastname, birthdate, location, email, phoneNumber, job, idFirebase, fk_company) async {
 
     print("create Admin");
     final response = await  http.post(
@@ -59,14 +55,10 @@ class UserServices {
     );
 
     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+      return UserApp.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('L\'admin n\'a pas été crée');
     }
-  }
-
-  Future<void> storeUser(User currentUser) async {
-    await userBox.add(currentUser);
   }
 
   static Future<http.Response> deleteUser(String id) async {
@@ -80,7 +72,7 @@ class UserServices {
     return response;
 
   }
-  static Future<http.Response> updateUser(User user) {
+  static Future<http.Response> updateUser(UserApp user) {
     return http.put(
       Uri.parse('https://jobserve-moc.herokuapp.com/users-one'),
       headers: <String, String>{
