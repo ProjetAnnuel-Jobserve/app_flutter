@@ -14,8 +14,8 @@ class _CompanyItemState extends State<CompanyItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return SizedBox(
+      child: Container(
         child: 
            Center(
              child: Column(

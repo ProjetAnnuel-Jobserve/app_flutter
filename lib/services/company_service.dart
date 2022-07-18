@@ -21,20 +21,15 @@ class CompanyServices {
 
   static Future<Company> getCompanybyId(String idCompany) async {
 
-    print("tesifeoof");
-    print("${idCompany}");
     final response = await http.get(
-      Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idCompany}"),
+      Uri.parse("https://jobserve-moc.herokuapp.com/companys/${idCompany}"),
     );
-
       
-      final dynamic test = Company.fromJson(jsonDecode(response.body));
-      print("test : ${test}");
-      return test;
-      
- 
+    if (response.statusCode == 200 || response.statusCode == 304) {
+      return Company.fromJson(jsonDecode(response.body));
+    } else {
       throw Error();
-    
+    }
 
   }
 

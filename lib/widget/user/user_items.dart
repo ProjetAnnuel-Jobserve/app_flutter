@@ -3,7 +3,7 @@ import 'package:jobserve_ref/constant.dart';
 import 'package:jobserve_ref/models/user.dart';
 import 'package:jobserve_ref/screens/users/add_user.dart';
 
-import 'package:jobserve_ref/widget/user/user_detail.dart';
+import 'package:jobserve_ref/screens/users/user_detail.dart';
 
 
 class UserTable extends StatefulWidget {
