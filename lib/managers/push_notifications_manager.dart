@@ -57,11 +57,7 @@ class PushNotificationsManager {
     }
 
     CreateSubscriptionParameters parameters = CreateSubscriptionParameters();
-    parameters.environment = CubeEnvironment
-        .DEVELOPMENT; // TODO for sample we use DEVELOPMENT environment
-    // bool isProduction = bool.fromEnvironment('dart.vm.product');
-    // parameters.environment =
-    //     isProduction ? CubeEnvironment.PRODUCTION : CubeEnvironment.DEVELOPMENT;
+    parameters.environment = CubeEnvironment.DEVELOPMENT;
 
     if (Platform.isAndroid) {
       parameters.channel = NotificationsChannels.GCM;
@@ -138,14 +134,9 @@ Future<void> sendPushAboutRejectFromKilledState(
   params.parameters = parameters;
   params.parameters['message'] = "Reject call";
   params.parameters[PARAM_SIGNAL_TYPE] = SIGNAL_TYPE_REJECT_CALL;
-  // params.parameters[PARAM_IOS_VOIP] = 1;
 
   params.notificationType = NotificationType.PUSH;
-  params.environment = CubeEnvironment
-      .DEVELOPMENT; // TODO for sample we use DEVELOPMENT environment
-  // bool isProduction = bool.fromEnvironment('dart.vm.product');
-  // params.environment =
-  //     isProduction ? CubeEnvironment.PRODUCTION : CubeEnvironment.DEVELOPMENT;
+  params.environment = CubeEnvironment.DEVELOPMENT;
   params.usersIds = [callerId];
 
   return createEvent(params.getEventForRequest());

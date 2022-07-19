@@ -23,6 +23,9 @@ void main() async {
     .listen((User? user) {
       if (user == null) {
         UserSharedPreferences.removePreferences();
+        print("zjdapoaj");
+      } else {
+        print("jpzejze");
       }
     });
     setUrlStrategy(PathUrlStrategy());
