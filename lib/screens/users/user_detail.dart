@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/models/user.dart';
 import 'package:jobserve_ref/services/user_service.dart';
+import 'package:jobserve_ref/utils/shared_preferences.dart';
 
 class Card_User extends StatefulWidget {
 
@@ -44,35 +45,37 @@ class _Card_UserState extends State<Card_User> {
             key: _formKey,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Spacer(),
-                    TextButton.icon(
-                        onPressed: _enableUpdate,
+                  Row(
+                    children: [
+                      if(UserSharedPreferences.getValue('permission') == "admin") ... [
+                      Spacer(),
+                      TextButton.icon(
+                          onPressed: _enableUpdate,
+                          icon: Icon(
+                            Icons.create_rounded,
+                            size: 24.0,
+                            semanticLabel: 'pencil',
+                          ),
+                          label: Text("Modifier l'utilisateur")),
+                      SizedBox(),
+                      TextButton.icon(
+                        onPressed: () {
+                          showAlert(context);
+                        },
                         icon: Icon(
-                          Icons.create_rounded,
+                          Icons.delete,
+                          color: Colors.red,
                           size: 24.0,
-                          semanticLabel: 'pencil',
+                          semanticLabel: 'Trash bin red',
                         ),
-                        label: Text("Modifier l'utilisateur")),
-                    SizedBox(),
-                    TextButton.icon(
-                      onPressed: () {
-                        showAlert(context);
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                        size: 24.0,
-                        semanticLabel: 'Trash bin red',
+                        label: Text(
+                          "Supprimer l'utilisateur",
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
-                      label: Text(
-                        "Supprimer l'utilisateur",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                  ],
-                ),
+                      ]
+                    ],
+                  ),
                 SizedBox(
                   width: 400,
                   child: Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:jobserve_ref/services/user_service.dart';
 
@@ -25,7 +26,6 @@ class _add_userState extends State<add_user> {
     final lastnameController = TextEditingController();
     final firstnameController = TextEditingController();
     final mailController = TextEditingController();
-    final passwordController = TextEditingController();
     final birthDateController = TextEditingController();
     final numberController = TextEditingController();
     final addressController = TextEditingController();
@@ -152,33 +152,6 @@ class _add_userState extends State<add_user> {
                 ),
                 ListTile(
                   leading: Icon(
-                    Icons.lock,
-                    color: Colors.pink,
-                  ),
-                  title: TextFormField(
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Error';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Mot de Passe',
-                      hintStyle: TextStyle(color: Colors.black54),
-                      errorStyle: TextStyle(
-                        fontSize: 0,
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.pink),
-                      ),
-                    ),
-                    controller: passwordController,
-                    style: TextStyle(color: Colors.pink),
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(
                     Icons.date_range,
                     color: Colors.pink,
                   ),
@@ -190,7 +163,6 @@ class _add_userState extends State<add_user> {
                       return null;
                     },
                     controller: birthDateController,
-                    //editing controller of this TextField
                     decoration: InputDecoration(
                       hintText: 'Date',
                       hintStyle: TextStyle(color: Colors.grey),
@@ -202,13 +174,11 @@ class _add_userState extends State<add_user> {
                       ),
                     ),
                     readOnly: true,
-                    //set it true, so that user will not able to edit text
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(1900),
-                          //DateTime.now() - not to allow to choose before today.
                           lastDate: DateTime.now());
                       if (pickedDate != null) {
                         String formattedDate =
@@ -224,13 +194,13 @@ class _add_userState extends State<add_user> {
                     color: Colors.pink,
                   ),
                   title: TextFormField(
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Error';
-                      }
-                      return null;
-                    },
+                    inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value.length != 10) {
+                          return 'Error';
+                        }
+                        return null;
+                      },
                     decoration: InputDecoration(
                       hintText: 'Numéro de téléphone',
                       hintStyle: TextStyle(color: Colors.black54),

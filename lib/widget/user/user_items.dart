@@ -4,6 +4,7 @@ import 'package:jobserve_ref/models/user.dart';
 import 'package:jobserve_ref/screens/users/add_user.dart';
 
 import 'package:jobserve_ref/screens/users/user_detail.dart';
+import 'package:jobserve_ref/utils/shared_preferences.dart';
 
 
 class UserTable extends StatefulWidget {
@@ -24,30 +25,32 @@ class _UserTableState extends State<UserTable> {
       width: double.infinity,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.centerRight,
-              child: TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => add_user(
-                          //a changer
-                          idCompany: widget.users[0].idCompany,
+          if(UserSharedPreferences.getValue('permission') == "admin") ... [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => add_user(
+                            //a changer
+                            idCompany: widget.users[0].idCompany,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.add_circle,
-                    size: 24.0,
-                    semanticLabel: 'plus',
-                  ),
-                  label: Text("Ajouter un utilisateur")),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.add_circle,
+                      size: 24.0,
+                      semanticLabel: 'plus',
+                    ),
+                    label: Text("Ajouter un utilisateur")),
+              ),
             ),
-          ),
+          ],
           Expanded(
             child: ListView(
               children: [
