@@ -3,12 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:jobserve_ref/screens/home_screen.dart';
-import 'package:jobserve_ref/screens/authentification/inscription_screen.dart';
+import 'package:jobserve_ref/navigation/routes.dart';
 import 'package:jobserve_ref/services/company_service.dart';
 import 'package:jobserve_ref/services/firebase_auth_service.dart';
 import 'package:jobserve_ref/services/user_service.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({ Key? key }) : super(key: key);
@@ -484,12 +482,8 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  void _goToA(BuildContext context) {
-    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")));
-  }
-
   void _goToRegister(BuildContext context) {
-    Navigator.pop(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
+    Navigator.pushNamed(context, RoutesName.connexion);
   }
 
   void _register(context, lastname, firstname, mail, password, birthDate, location, number, job, name, siret, capacity, address, city, zip) {
@@ -500,7 +494,7 @@ class SignUp extends StatelessWidget {
           .then((company) => UserServices.createAdmin(firstname, lastname, birthDate, location, mail, number, job, firebase, company.id)
             .then((admin) => { 
               FirebaseAuthService.storeUserAndToken(admin),
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")))
+              Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false)
               }
             )
           )

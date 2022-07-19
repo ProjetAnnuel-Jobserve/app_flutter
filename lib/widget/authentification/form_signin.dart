@@ -2,10 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/constant.dart';
-import 'package:jobserve_ref/screens/home_screen.dart';
-import 'package:jobserve_ref/screens/authentification/inscription_screen.dart';
-import 'package:page_transition/page_transition.dart';
-
+import 'package:jobserve_ref/navigation/routes.dart';
 import '../../services/firebase_auth_service.dart';
 
 class SignIn extends StatelessWidget {
@@ -97,12 +94,8 @@ class SignIn extends StatelessWidget {
     );
   }
 
-  void _goToA(BuildContext context) {
-    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")));
-  }
-
   void _goToRegister(BuildContext context) {
-    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: InscriptionScreen()));
+    Navigator.pushNamed(context, RoutesName.inscription);
   }
 
   void _signIn(context, login, password) {

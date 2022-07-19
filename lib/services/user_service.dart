@@ -28,6 +28,7 @@ class UserServices {
     if (response.statusCode != 200) {
       throw Error();
     }
+    print(UserApp.fromJson(jsonDecode(response.body)));
     return UserApp.fromJson(jsonDecode(response.body));
   
   }

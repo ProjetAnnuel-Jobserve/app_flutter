@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:jobserve_ref/navigation/routes.dart';
+import 'package:jobserve_ref/navigation/routes_generator.dart';
+import 'package:jobserve_ref/screens/authentification/inscription_screen.dart';
+import 'package:jobserve_ref/screens/home_screen.dart';
 import 'package:jobserve_ref/utils/pref_util.dart';
 import 'package:jobserve_ref/utils/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -9,6 +13,7 @@ import 'package:jobserve_ref/screens/authentification/connexion_screen.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
 import 'package:jobserve_ref/utils/configs.dart' as config;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +26,12 @@ void main() async {
     .listen((User? user) {
       if (user == null) {
         print('User is currently signed out!');
+        UserSharedPreferences.removePreferences();
       } else {
         print('User is signed in!');
       }
     });
+    setUrlStrategy(PathUrlStrategy());
     runApp(const MyApp());
 }
 
@@ -55,14 +62,16 @@ class _MyAppState extends State<MyApp> {
           primary: jPrimaryColor, // Color used for checkbox fill in datatable
         ),
       ),
-      home: ConnexionScreen(),
+      //home: ConnexionScreen(),
+      //builder: (context, child) => HomePage(child: child),
+      onGenerateRoute: RouteGenerator.generateRoute,
+      initialRoute: RoutesName.connexion,
     );
   }
 
   @override
   void initState() {
     super.initState();
-
     initConnectycube();
   }
 }

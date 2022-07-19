@@ -11,9 +11,9 @@ import 'package:jobserve_ref/widget/user/user_list.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({required this.title});
+  HomeScreen({this.index = 0});
 
-  final String title;
+  int index;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if(newId == views.length){
         _logout(context);
       }else{
-        selectedIndex = newId;
+        widget.index = newId;
       }
     });
   }
@@ -63,18 +63,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: jSecondaryColor,
-          title: Text(widget.title),
+          title: Text("Jobserve"),
+          automaticallyImplyLeading: false
         ),
         body: Row(
           children: [
             SideNavigation(
-              index: selectedIndex,
+              index: widget.index,
               updateRoute: (int newId){
                 getNewRoute(newId);
               },
             ),
             Expanded(
-              child: views.elementAt(selectedIndex),
+              child: views.elementAt(widget.index),
             ),
           ],
         ),

@@ -22,7 +22,7 @@ class UserSharedPreferences {
     await preferences.setString('token', token != null ? token : '')
   };
 
-  static String? getValue(String key) => preferences.getString('${key}') != null ? preferences.getString('${key}') : "pas de ${key}"; 
+  static String? getValue(String key) => preferences.getString('${key}') != null ? preferences.getString('${key}') : "pas d'information"; 
 
   static removePreferences() async => await preferences.clear(); 
 

@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/models/user.dart';
-import 'package:jobserve_ref/screens/authentification/connexion_screen.dart';
+import 'package:jobserve_ref/navigation/routes.dart';
 import 'package:jobserve_ref/services/user_service.dart';
 import 'package:jobserve_ref/utils/shared_preferences.dart';
-import 'package:page_transition/page_transition.dart';
-
-import '../screens/home_screen.dart';
 
 class FirebaseAuthService {
 
@@ -53,8 +50,11 @@ class FirebaseAuthService {
       final dynamic user = await FirebaseAuth.instance.currentUser;
       final UserApp userApp = await UserServices.getUserbyIdFirebase(user.uid);
       print("user ${user.uid}");
-      FirebaseAuthService.storeUserAndToken(userApp);
-      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HomeScreen(title: "Accueil")));
+      if(userApp.permission == 'admin' || userApp.permission == 'modo'){
+        FirebaseAuthService.storeUserAndToken(userApp).then((value) => Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false));
+      }else{
+        return shownMessage(context, 'Cet Utilisateur n\'est pas autorisé à se connecter.');
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return shownMessage(context, 'Ce mail n\'existe pas.');
@@ -66,17 +66,18 @@ class FirebaseAuthService {
 
   static logout(context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: ConnexionScreen()));
+    UserSharedPreferences.removePreferences();
+    Navigator.pushNamedAndRemoveUntil(context, RoutesName.connexion, (route) => false);
   }
 
   static forgotPassword(mail) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: mail);
   }
 
-  static storeUserAndToken(UserApp user) async {
+  static Future storeUserAndToken(UserApp user) async {
     final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    UserSharedPreferences.setUser(user, token);
-    UserSharedPreferences.getValue("id");
+    await UserSharedPreferences.setUser(user, token);
+    return;
 
   }
 
