@@ -306,7 +306,8 @@ class _add_userState extends State<add_user> {
                   if (_formKey.currentState!.validate())
                     {
                      // print("dropdown value = $dropdownValue")
-                      UserServices.add_user(firstnameController.text,lastnameController.text,birthDateController.text,addressController.text,mailController.text,numberController.text,jobController.text,dropdownValue,"a",UserSharedPreferences.getValue('idCompany')!)
+                      _addUser(firstnameController.text,lastnameController.text,birthDateController.text,addressController.text,mailController.text,numberController.text,jobController.text,dropdownValue,"a")
+                      //UserServices.add_user(firstnameController.text,lastnameController.text,birthDateController.text,addressController.text,mailController.text,numberController.text,jobController.text,dropdownValue,"a",UserSharedPreferences.getValue('idCompany')!)
                     }
                   else
                     {
@@ -333,6 +334,10 @@ class _add_userState extends State<add_user> {
     )
     ,
     );
+  }
+  void _addUser(String firstname,String lastname,String birthdate,String address,String mail, String phone,String job, String permission, String idFirebase) async {
+    //UserServices.deleteUser(widget.user.id).then((value) => Navigator.pop(context));
+    UserServices.add_user(firstname,lastname,birthdate,address,mail,phone,job,permission,"a",UserSharedPreferences.getValue('idCompany')!).then((value) => Navigator.pop(context));
   }
 }
 
@@ -372,3 +377,4 @@ class _typeUserState extends State<typeUser> {
     );
   }
 }
+

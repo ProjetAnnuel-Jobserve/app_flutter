@@ -30,7 +30,6 @@ class _Card_UserState extends State<Card_User> {
     final numberController = TextEditingController(text: widget.user.phoneNumber);
     final addressController = TextEditingController(text: widget.user.address);
     final jobController = TextEditingController(text: widget.user.job);
-    final typeController = TextEditingController(text: widget.user.permission);
 
     return Scaffold(
       appBar: AppBar(
@@ -154,7 +153,8 @@ class _Card_UserState extends State<Card_User> {
                           if (_formKey.currentState!.validate())
                             {
                               //print("user : id ${widget.user.id}, ${jobController.text},`${numberController.text}, ${addressController.text}, ${typeUser}")
-                              UserServices.updateUser(widget.user.id,typeUser, jobController.text, numberController.text, addressController.text)
+                              _updateUser(widget.user.id,typeUser, jobController.text, numberController.text, addressController.text)
+                            //  UserServices.updateUser(widget.user.id,typeUser, jobController.text, numberController.text, addressController.text)
                               //UserServices.add_user(firstnameController.text,lastnameController.text,birthDateController.text,addressController.text,mailController.text,numberController.text,jobController.text,dropdownValue,"a",UserSharedPreferences.getValue('idCompany')!)
                             }
                           else
@@ -184,8 +184,13 @@ class _Card_UserState extends State<Card_User> {
         ),
       ),
     );
-  }
 
+
+  }
+  void _updateUser(String id,String typeUser,String job,String number,String address) async {
+    UserServices.updateUser(id,typeUser, job, number, address).then((value) => Navigator.pop(context));;
+    //UserServices.add_user(firstname,lastname,birthdate,address,mail,phone,job,permission,"a",UserSharedPreferences.getValue('idCompany')!).then((value) => Navigator.pop(context));
+  }
   showAlert(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text("Annuler"),
