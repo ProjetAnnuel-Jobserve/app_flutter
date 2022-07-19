@@ -54,8 +54,14 @@ class RouteGenerator {
               widget: HomeScreen(), routeName: RoutesName.home);
       }
     } else {
-      return _GeneratePageRoute(
-          widget: ConnexionScreen(), routeName: settings.name);
+      switch (settings.name){
+        case RoutesName.inscription:
+          return _GeneratePageRoute(
+            widget: InscriptionScreen(), routeName: settings.name);
+        default:
+          return _GeneratePageRoute(
+            widget: ConnexionScreen(), routeName: settings.name);
+      }
     }
   }
 }

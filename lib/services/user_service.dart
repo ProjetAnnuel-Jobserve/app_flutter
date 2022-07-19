@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:jobserve_ref/models/user.dart';
+import 'package:random_string/random_string.dart';
 
 class UserServices {
 
@@ -21,14 +23,20 @@ class UserServices {
   }
   
   static Future<UserApp> getUserbyIdFirebase(String idFirebase) async {
+
     final response = await http.get(
       Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idFirebase}"),
     );
 
-    if (response.statusCode != 200) {
+    print("ijofeiozj");
+
+    if (response.statusCode != 200 && response.statusCode != 304) {
+      print(response.toString());
       throw Error();
     }
-    print(UserApp.fromJson(jsonDecode(response.body)));
+    print("fjoiezjioezj");
+    print(UserApp.fromJson(jsonDecode(response.body)).toString());
+    print("ezfezoijfezifiez");
     return UserApp.fromJson(jsonDecode(response.body));
   
   }
@@ -89,7 +97,15 @@ class UserServices {
     );
   }
 
-  static Future<http.Response> add_user(String firstname,String lastname,String birthDate,String adress,String email,String phoneNumber,String job,String permission,String idFirebase,String idCompany) {
+  static Future<http.Response> add_user(String firstname,String lastname,String birthDate,String adress,String email,String phoneNumber,String job,String permission,String idFirebase,String idCompany) async {
+
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: randomString(20),
+    );
+
+    FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
     return http.post(
       Uri.parse('https://jobserve-moc.herokuapp.com/users'),
       headers: <String, String>{
