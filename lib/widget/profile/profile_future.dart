@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/models/company.dart';
 import 'package:jobserve_ref/services/company_service.dart';
+import 'package:jobserve_ref/services/user_service.dart';
 import 'package:jobserve_ref/utils/shared_preferences.dart';
 import 'package:jobserve_ref/widget/company/company_item.dart';
+import 'package:jobserve_ref/widget/profile_item.dart';
+
+import '../../models/user.dart';
 
 
-class CompanyFuture extends StatelessWidget {
-  const CompanyFuture({
+class ProfileFuture extends StatelessWidget {
+  const ProfileFuture({
     Key? key,
   }) : super(key: key);
 
@@ -17,7 +21,7 @@ class CompanyFuture extends StatelessWidget {
         children: [
           Container(
             child: FutureBuilder(
-              future: CompanyServices.getCompanybyId('${UserSharedPreferences.getValue("idCompany")}'),
+              future:   UserServices.getUserbyId(UserSharedPreferences.getValue("id")!),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
@@ -34,9 +38,9 @@ class CompanyFuture extends StatelessWidget {
                       );
                     }
                     if (snapshot.hasData) {
-                      final Company company = snapshot.data;
+                      final UserApp profil = snapshot.data;
                       print("condition ok, data ok ");
-                      return CompanyItem(company: company);
+                      return ProfileItem(profil:profil);
                     } else {
                       return Center(
                         child: Text("No data"),
@@ -52,5 +56,4 @@ class CompanyFuture extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -38,6 +38,21 @@ class CompanyServices {
     
 
   }
+  static Future<http.Response> updateCompany(String id,String name,String address,String city,String zipcode ) {
+    return http.put(
+      Uri.parse('https://jobserve-moc.herokuapp.com/companys'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        '_id':id,
+        'name': name,
+        'address': address,
+        'city': city,
+        'zipcode': zipcode
+      }),
+    );
+  }
 
   static Future<Company> createCompany(name, siret, capacity, address, city, zip) async {
 

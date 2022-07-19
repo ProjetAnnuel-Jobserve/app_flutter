@@ -25,11 +25,22 @@ class UserServices {
       Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idFirebase}"),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 304) {
       throw Error();
     }
     return UserApp.fromJson(jsonDecode(response.body));
   
+  }
+  static Future<UserApp> getUserbyId(String id) async {
+    final response = await http.get(
+      Uri.parse("https://jobserve-moc.herokuapp.com/users/$id"),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 304) {
+      throw Error();
+    }
+    return UserApp.fromJson(jsonDecode(response.body));
+
   }
 
   static Future<UserApp> createAdmin(firstname, lastname, birthdate, location, email, phoneNumber, job, idFirebase, fk_company) async {
