@@ -14,7 +14,6 @@ import '../utils/consts.dart';
 class CallManager {
   static String TAG = "CallManager";
 
-  // collect pending calls in case when it was accepted/ended before establish chat connection
   Map<String?, String> _callsMap = {};
 
   static CallManager get instance => _getInstance();
@@ -80,8 +79,6 @@ class CallManager {
       } else if (callState == CallState.ACCEPTED) {
         acceptCall(_currentCall!.sessionId);
       } else if (callState == CallState.UNKNOWN) {
-        // ConnectycubeFlutterCallKit.setCallState(sessionId: _currentCall.sessionId, callState: CallState.PENDING);
-        // _showIncomingCallScreen(_currentCall);
         if (Platform.isWindows || Platform.isMacOS || kIsWeb) {
           _showIncomingCallScreen(_currentCall!);
         }
@@ -123,10 +120,6 @@ class CallManager {
         ),
       );
     }
-  }
-
-  void _savePendingCall(sessionId) {
-    _callsMap[sessionId] = CallState.PENDING;
   }
 
   void acceptCall(String sessionId) {
@@ -180,11 +173,7 @@ class CallManager {
     };
 
     params.notificationType = NotificationType.PUSH;
-    params.environment = CubeEnvironment
-        .DEVELOPMENT; // TODO for sample we use DEVELOPMENT environment
-    // bool isProduction = bool.fromEnvironment('dart.vm.product');
-    // params.environment =
-    //     isProduction ? CubeEnvironment.PRODUCTION : CubeEnvironment.DEVELOPMENT;
+    params.environment = CubeEnvironment.DEVELOPMENT;
     params.usersIds = currentCall.opponentsIds.toList();
 
     return params;

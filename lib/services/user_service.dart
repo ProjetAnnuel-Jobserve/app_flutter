@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:jobserve_ref/models/user.dart';
 
 class UserServices {
-
   static Future<List<UserApp>> getUsers(String? idCompany) async {
     final response = await http.get(
-      Uri.parse("https://jobserve-moc.herokuapp.com/users-company/${idCompany}"),
+      Uri.parse(
+          "https://jobserve-moc.herokuapp.com/users-company/${idCompany}"),
     );
     if (response.statusCode != 200) {
       print("Erreur URL");
@@ -14,28 +14,27 @@ class UserServices {
     }
     final jsonBody = json.decode(response.body);
     final List<UserApp> users = [];
-    users.addAll((jsonBody as List)
-        .map((user) => UserApp.fromJson(user))
-        .toList());
+    users.addAll(
+        (jsonBody as List).map((user) => UserApp.fromJson(user)).toList());
     return users;
   }
-  
+
   static Future<UserApp> getUserbyIdFirebase(String idFirebase) async {
     final response = await http.get(
-      Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idFirebase}"),
+      Uri.parse(
+          "https://jobserve-moc.herokuapp.com/users-firebase/${idFirebase}"),
     );
 
     if (response.statusCode != 200) {
       throw Error();
     }
     return UserApp.fromJson(jsonDecode(response.body));
-  
   }
 
-  static Future<UserApp> createAdmin(firstname, lastname, birthdate, location, email, phoneNumber, job, idFirebase, fk_company) async {
-
+  static Future<UserApp> createAdmin(firstname, lastname, birthdate, location,
+      email, phoneNumber, job, idFirebase, fk_company) async {
     print("create Admin");
-    final response = await  http.post(
+    final response = await http.post(
       Uri.parse('https://jobserve-moc.herokuapp.com/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -70,25 +69,36 @@ class UserServices {
       throw Error();
     }
     return response;
-
   }
-  static Future<http.Response> updateUser(String id,String permission,String job,String phoneNumber,String address ) {
+
+  static Future<http.Response> updateUser(String id, String permission,
+      String job, String phoneNumber, String address) {
     return http.put(
       Uri.parse('https://jobserve-moc.herokuapp.com/users-one'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-         '_id': id,
-         'permission': permission,
-         'job': job,
-         'phoneNumber': phoneNumber,
-         'location': address
+        '_id': id,
+        'permission': permission,
+        'job': job,
+        'phoneNumber': phoneNumber,
+        'location': address
       }),
     );
   }
 
-  static Future<http.Response> add_user(String firstname,String lastname,String birthDate,String adress,String email,String phoneNumber,String job,String permission,String idFirebase,String idCompany) {
+  static Future<http.Response> add_user(
+      String firstname,
+      String lastname,
+      String birthDate,
+      String adress,
+      String email,
+      String phoneNumber,
+      String job,
+      String permission,
+      String idFirebase,
+      String idCompany) {
     return http.post(
       Uri.parse('https://jobserve-moc.herokuapp.com/users'),
       headers: <String, String>{
@@ -108,5 +118,4 @@ class UserServices {
       }),
     );
   }
-
 }
