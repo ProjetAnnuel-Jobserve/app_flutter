@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jobserve_ref/managers/call_manager.dart';
 import 'package:jobserve_ref/utils/platform_utils.dart';
+import 'package:universal_io/io.dart';
 import 'package:web_browser_detect/web_browser_detect.dart';
 
 import 'login_screen.dart';
@@ -24,10 +25,14 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
   static const String TAG = "_ConversationCallScreenState";
   final P2PSession _callSession;
   final bool _isIncoming;
+  bool _isCameraEnabled = true;
+  bool _isSpeakerEnabled = true;
   bool _isMicMute = false;
 
   RTCVideoRenderer? localRenderer;
   Map<int?, RTCVideoRenderer> remoteRenderers = {};
+
+  bool _enableScreenSharing;
 
   MediaStream? _localMediaStream;
 
@@ -39,7 +44,8 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
 
   bool _customMediaStream = false;
 
-  _ConversationCallScreenState(this._callSession, this._isIncoming);
+  _ConversationCallScreenState(this._callSession, this._isIncoming)
+      : _enableScreenSharing = !_callSession.startScreenSharing;
 
   @override
   void initState() {
@@ -91,9 +97,21 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
       _needRebuildLocalVideoView = _isSafari || localRenderer == null;
     });
 
+    /// workaround for updating localVideo in Safari browser
     if (_isSafari) {
       if (!_customMediaStream) {
         _customMediaStream = true;
+
+        var customMediaStream = _enableScreenSharing
+            ? await navigator.mediaDevices
+                .getUserMedia({'audio': true, 'video': _isVideoCall()})
+            : await navigator.mediaDevices
+                .getDisplayMedia({'audio': true, 'video': true});
+
+        _callSession.replaceMediaStream(customMediaStream);
+        setState(() {
+          _needRebuildLocalVideoView = true;
+        });
       }
     } else {
       localRenderer?.srcObject = _localMediaStream;
@@ -309,6 +327,69 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
                   backgroundColor: Colors.black38,
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: FloatingActionButton(
+                  elevation: 0,
+                  heroTag: "Speacker",
+                  child: Icon(
+                    Icons.volume_up,
+                    color: _isSpeakerEnabled ? Colors.white : Colors.grey,
+                  ),
+                  onPressed: () => _switchSpeaker(),
+                  backgroundColor: Colors.black38,
+                ),
+              ),
+              Visibility(
+                visible: kIsWeb || Platform.isIOS || Platform.isAndroid,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    heroTag: "ToggleScreenSharing",
+                    child: Icon(
+                      _enableScreenSharing
+                          ? Icons.screen_share
+                          : Icons.stop_screen_share,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => _toggleScreenSharing(),
+                    backgroundColor: Colors.black38,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: _enableScreenSharing,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    heroTag: "SwitchCamera",
+                    child: Icon(
+                      Icons.switch_video,
+                      color: _isVideoEnabled() ? Colors.white : Colors.grey,
+                    ),
+                    onPressed: () => _switchCamera(),
+                    backgroundColor: Colors.black38,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: _enableScreenSharing,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    heroTag: "ToggleCamera",
+                    child: Icon(
+                      Icons.videocam,
+                      color: _isVideoEnabled() ? Colors.white : Colors.grey,
+                    ),
+                    onPressed: () => _toggleCamera(),
+                    backgroundColor: Colors.black38,
+                  ),
+                ),
+              ),
               Expanded(
                 child: SizedBox(),
                 flex: 1,
@@ -346,8 +427,54 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
     });
   }
 
+  _switchCamera() {
+    if (!_isVideoEnabled()) return;
+
+    _callSession.switchCamera();
+  }
+
+  _toggleCamera() {
+    if (!_isVideoCall()) return;
+
+    setState(() {
+      _isCameraEnabled = !_isCameraEnabled;
+      _callSession.setVideoEnabled(_isCameraEnabled);
+    });
+  }
+
+  _toggleScreenSharing() async {
+    var foregroundServiceFuture = _enableScreenSharing
+        ? startBackgroundExecution()
+        : stopBackgroundExecution();
+
+    var hasPermissions = await hasBackgroundExecutionPermissions();
+
+    if (!hasPermissions) {
+      await initForegroundService();
+    }
+
+    foregroundServiceFuture.then((_) {
+      _callSession.enableScreenSharing(_enableScreenSharing).then((voidResult) {
+        setState(() {
+          _enableScreenSharing = !_enableScreenSharing;
+        });
+      });
+    });
+  }
+
+  bool _isVideoEnabled() {
+    return _isVideoCall() && _isCameraEnabled;
+  }
+
   bool _isVideoCall() {
     return CallType.VIDEO_CALL == _callSession.callType;
+  }
+
+  _switchSpeaker() {
+    setState(() {
+      _isSpeakerEnabled = !_isSpeakerEnabled;
+      _callSession.enableSpeakerphone(_isSpeakerEnabled);
+    });
   }
 
   @override
