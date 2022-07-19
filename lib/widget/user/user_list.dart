@@ -42,7 +42,6 @@ class UserList extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => add_user(
-                                  //a changer
                                   idCompany: UserSharedPreferences.getValue('idCompany')!,
                                 ),
                               ),

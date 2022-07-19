@@ -22,10 +22,7 @@ void main() async {
     .idTokenChanges()
     .listen((User? user) {
       if (user == null) {
-        print('User is currently signed out!');
         UserSharedPreferences.removePreferences();
-      } else {
-        print('User is signed in!');
       }
     });
     setUrlStrategy(PathUrlStrategy());
@@ -40,7 +37,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -55,11 +52,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: jPrimaryColor,
         colorScheme: ThemeData.light().colorScheme.copyWith(
-          onPrimary: Colors.white, // Color for checkmark in datatable
-          primary: jPrimaryColor, // Color used for checkbox fill in datatable
+          onPrimary: Colors.white,
+          primary: jPrimaryColor,
         ),
       ),
-      //home: ConnexionScreen(),
       //builder: (context, child) => HomePage(child: child),
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: RoutesName.connexion,

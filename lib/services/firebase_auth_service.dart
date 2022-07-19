@@ -49,7 +49,6 @@ class FirebaseAuthService {
       );
       final dynamic user = await FirebaseAuth.instance.currentUser;
       final UserApp userApp = await UserServices.getUserbyIdFirebase(user.uid);
-      print("user ${user.uid}");
       if(userApp.permission == 'admin' || userApp.permission == 'modo'){
         FirebaseAuthService.storeUserAndToken(userApp).then((value) => Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false));
       }else{

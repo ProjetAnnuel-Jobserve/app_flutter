@@ -489,7 +489,6 @@ class SignUp extends StatelessWidget {
   void _register(context, lastname, firstname, mail, password, birthDate, location, number, job, name, siret, capacity, address, city, zip) {
     FirebaseAuthService.signUp(context, mail, password).then((firebase) => {
       if (firebase != '') {
-          print("creation compte firebase"),
           CompanyServices.createCompany(name, siret, capacity, address, city, zip)
           .then((company) => UserServices.createAdmin(firstname, lastname, birthDate, location, mail, number, job, firebase, company.id)
             .then((admin) => { 

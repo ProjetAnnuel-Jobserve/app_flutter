@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jobserve_ref/models/user.dart';
 import 'package:jobserve_ref/services/user_service.dart';
 import 'package:jobserve_ref/utils/shared_preferences.dart';
@@ -22,10 +23,10 @@ class _Card_UserState extends State<Card_User> {
     super.initState();
   }
 
-  String typeUser = "user";
-
   @override
+  String typeUser = "user";
   Widget build(BuildContext context) {
+
 
     final _formKey = GlobalKey<FormState>();
     final numberController = TextEditingController(text: widget.user.phoneNumber);
@@ -45,37 +46,37 @@ class _Card_UserState extends State<Card_User> {
             key: _formKey,
             child: Column(
               children: [
-                  Row(
-                    children: [
-                      if(UserSharedPreferences.getValue('permission') == "admin") ... [
-                      Spacer(),
-                      TextButton.icon(
-                          onPressed: _enableUpdate,
-                          icon: Icon(
-                            Icons.create_rounded,
-                            size: 24.0,
-                            semanticLabel: 'pencil',
-                          ),
-                          label: Text("Modifier l'utilisateur")),
-                      SizedBox(),
-                      TextButton.icon(
-                        onPressed: () {
-                          showAlert(context);
-                        },
+                Row(
+                  children: [
+                    if(UserSharedPreferences.getValue('permission') == "admin") ... [
+                    Spacer(),
+                    TextButton.icon(
+                        onPressed: _enableUpdate,
                         icon: Icon(
-                          Icons.delete,
-                          color: Colors.red,
+                          Icons.create_rounded,
                           size: 24.0,
-                          semanticLabel: 'Trash bin red',
+                          semanticLabel: 'pencil',
                         ),
-                        label: Text(
-                          "Supprimer l'utilisateur",
-                          style: TextStyle(color: Colors.red),
-                        ),
+                        label: Text("Modifier l'utilisateur")),
+                    SizedBox(),
+                    TextButton.icon(
+                      onPressed: () {
+                        showAlert(context);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                        size: 24.0,
+                        semanticLabel: 'Trash bin red',
                       ),
-                      ]
+                      label: Text(
+                        "Supprimer l'utilisateur",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
                     ],
-                  ),
+                  ],
+                ),
                 SizedBox(
                   width: 400,
                   child: Column(
@@ -100,16 +101,15 @@ class _Card_UserState extends State<Card_User> {
                       TextFormField(
                         controller: addressController,
                         enabled: isModify,
-                      //  initialValue: widget.user.address,
                         decoration: InputDecoration(
                           labelText: "Adresse",
                         ),
                       ),
                       TextFormField(
+                        inputFormatters: [ FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                         controller: numberController,
                         keyboardType: TextInputType.phone,
                         enabled: isModify,
-                       // initialValue: widget.user.phoneNumber,
                         decoration: InputDecoration(
                           labelText: "Telephone",
                         ),
@@ -117,7 +117,6 @@ class _Card_UserState extends State<Card_User> {
                       TextFormField(
                         controller: jobController,
                         enabled: isModify,
-                        //initialValue: widget.user.job,
                         decoration: InputDecoration(
                           labelText: "Poste",
                         ),
@@ -135,8 +134,6 @@ class _Card_UserState extends State<Card_User> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                    typeUser = newValue!;
-                                  // print("newValue= $newValue");
-                                  // print("typeUser = $typeUser");
                                 });
                               },
                               items: <String>["user", "modo", "admin"]
@@ -155,9 +152,7 @@ class _Card_UserState extends State<Card_User> {
                         {
                           if (_formKey.currentState!.validate())
                             {
-                              //print("user : id ${widget.user.id}, ${jobController.text},`${numberController.text}, ${addressController.text}, ${typeUser}")
-                              UserServices.updateUser(widget.user.id,typeUser, jobController.text, numberController.text, addressController.text)
-                              //UserServices.add_user(firstnameController.text,lastnameController.text,birthDateController.text,addressController.text,mailController.text,numberController.text,jobController.text,dropdownValue,"a",UserSharedPreferences.getValue('idCompany')!)
+                              _updateUser(widget.user.id,typeUser, jobController.text, numberController.text, addressController.text)
                             }
                           else
                             {
@@ -186,8 +181,12 @@ class _Card_UserState extends State<Card_User> {
         ),
       ),
     );
-  }
 
+
+  }
+  void _updateUser(String id,String typeUser,String job,String number,String address) async {
+    UserServices.updateUser(id,typeUser, job, number, address).then((value) => Navigator.pop(context));;
+  }
   showAlert(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text("Annuler"),

@@ -35,7 +35,6 @@ class CompanyServices {
 
   static Future<Company> createCompany(name, siret, capacity, address, city, zip) async {
 
-    print('capacity :  ${capacity}');
     final response = await  http.post(
       Uri.parse('https://jobserve-moc.herokuapp.com/companys'),
       headers: <String, String>{
@@ -52,11 +51,26 @@ class CompanyServices {
     );
 
     if (response.statusCode == 200) {
-      print("Entreprise crée et recu");
       return Company.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('L\'entreprise n\'a pas été crée');
     }
+  }
+
+  static Future<http.Response> updateCompany(String id,String name,String address,String city,String zipcode ) {
+    return http.put(
+      Uri.parse('https://jobserve-moc.herokuapp.com/companys'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        '_id':id,
+        'name': name,
+        'address': address,
+        'city': city,
+        'zipcode': zipcode
+      }),
+    );
   }
 
 }

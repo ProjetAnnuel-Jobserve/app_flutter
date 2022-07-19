@@ -11,7 +11,6 @@ class UserServices {
       Uri.parse("https://jobserve-moc.herokuapp.com/users-company/${idCompany}"),
     );
     if (response.statusCode != 200) {
-      print("Erreur URL");
       throw Error();
     }
     final jsonBody = json.decode(response.body);
@@ -28,22 +27,28 @@ class UserServices {
       Uri.parse("https://jobserve-moc.herokuapp.com/users-firebase/${idFirebase}"),
     );
 
-    print("ijofeiozj");
-
     if (response.statusCode != 200 && response.statusCode != 304) {
-      print(response.toString());
       throw Error();
     }
-    print("fjoiezjioezj");
-    print(UserApp.fromJson(jsonDecode(response.body)).toString());
-    print("ezfezoijfezifiez");
+
     return UserApp.fromJson(jsonDecode(response.body));
   
   }
 
+  static Future<UserApp> getUserbyId(String id) async {
+    final response = await http.get(
+      Uri.parse("https://jobserve-moc.herokuapp.com/users/$id"),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 304) {
+      throw Error();
+    }
+    return UserApp.fromJson(jsonDecode(response.body));
+
+  }
+
   static Future<UserApp> createAdmin(firstname, lastname, birthdate, location, email, phoneNumber, job, idFirebase, fk_company) async {
 
-    print("create Admin");
     final response = await  http.post(
       Uri.parse('https://jobserve-moc.herokuapp.com/users'),
       headers: <String, String>{
@@ -75,7 +80,6 @@ class UserServices {
       Uri.parse("https://jobserve-moc.herokuapp.com/users/$id"),
     );
     if (response.statusCode != 200) {
-      print("Erreur URL");
       throw Error();
     }
     return response;

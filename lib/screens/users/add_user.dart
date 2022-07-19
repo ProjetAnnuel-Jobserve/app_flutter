@@ -276,7 +276,6 @@ class _add_userState extends State<add_user> {
                 {
                   if (_formKey.currentState!.validate())
                     {
-                     // print("dropdown value = $dropdownValue")
                       UserServices.add_user(firstnameController.text,lastnameController.text,birthDateController.text,addressController.text,mailController.text,numberController.text,jobController.text,dropdownValue,"a",UserSharedPreferences.getValue('idCompany')!)
                     }
                   else

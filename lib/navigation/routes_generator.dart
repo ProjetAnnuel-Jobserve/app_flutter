@@ -20,7 +20,7 @@ class _GeneratePageRoute extends PageRouteBuilder {
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    if(UserSharedPreferences.getValue('idFirebase') != "pas d'information"){
+    if (UserSharedPreferences.getValue('idFirebase') != "pas d'information"){
       switch (settings.name) {
         case RoutesName.connexion:
           return _GeneratePageRoute(

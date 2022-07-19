@@ -36,7 +36,6 @@ class _UserTableState extends State<UserTable> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => add_user(
-                            //a changer
                             idCompany: widget.users[0].idCompany,
                           ),
                         ),
@@ -75,13 +74,6 @@ class _UserTableState extends State<UserTable> {
                   rows: List<DataRow>.generate(
                     widget.users.length,
                     (int index) => DataRow(
-                      /* color: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.selected)) {
-                        return Theme.of(context).colorScheme.primary.withOpacity(0.08);
-                      }
-                      return null;
-                    }),*/
                       cells: <DataCell>[
                         DataCell(Text(
                             '${widget.users[index].firstname + ' ' + widget.users[index].lastname}  ')),
@@ -98,7 +90,6 @@ class _UserTableState extends State<UserTable> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Card_User(
-                                    //a changer
                                     user: widget.users[index],
                                   ),
                                 ),
@@ -109,7 +100,6 @@ class _UserTableState extends State<UserTable> {
                           ),
                         )
                       ],
-                      // selected: selected[index],
                     ),
                   ),
                 )
@@ -119,18 +109,6 @@ class _UserTableState extends State<UserTable> {
         ],
       ),
     );
-  }
-
-  void _goTo(BuildContext context, String name, {dynamic argument}) {
-    Navigator.of(context).pushNamed(name, arguments: argument);
-  }
-
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        print(selectedValue);
-      });
-    }
   }
 }
 
@@ -148,7 +126,6 @@ class _userTypeState extends State<userType> {
   Widget build(BuildContext context) {
     String dropdownValue = widget.permission;
     return DropdownButton<String>(
-      //value: widget.permission,
       value: dropdownValue,
       onChanged: (String? newValue) {
         setState(() {
